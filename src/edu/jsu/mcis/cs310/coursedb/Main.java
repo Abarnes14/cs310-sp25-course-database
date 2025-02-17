@@ -10,8 +10,6 @@ public class Main {
     
     public static void main(String[] args) {
         
-        // Create DAO Objects
-        
         DAOFactory daoFactory = new DAOFactory("coursedb");
         
         RegistrationDAO registrationDao = daoFactory.getRegistrationDAO();
@@ -19,14 +17,20 @@ public class Main {
         
         int studentid = daoFactory.getStudentDAO().find(USERNAME);
         
-        // Test Connection
-        
         if ( !daoFactory.isClosed() ) {
-            
             System.out.println("Connected Successfully!");
-            
         }
         
+        String result = sectionDao.find(1, "CS", "310");
+        System.out.println("Section Search Result: " + result);
+        
+        boolean registrationResult = registrationDao.create(studentid, 1, 12345);
+        System.out.println("Registration Creation: " + (registrationResult ? "Successful" : "Failed"));
+        
+        boolean deleteResult = registrationDao.delete(studentid, 1, 12345);
+        System.out.println("Registration Deletion: " + (deleteResult ? "Successful" : "Failed"));
+        
+        String registrations = registrationDao.list(studentid, 1);
+        System.out.println("Registrations List: " + registrations);
     }
-    
 }

@@ -28,9 +28,34 @@ public class SectionDAO {
             Connection conn = daoFactory.getConnection();
             
             if (conn.isValid(0)) {
+                     // INSERT YOUR CODE HERE
+
+                ps = conn.prepareStatement(QUERY_FIND);
+                ps.setInt(1, termid);
+                ps.setString(2, subjectid);
+                ps.setString(3, num);
                 
-                // INSERT YOUR CODE HERE
+                rs = ps.executeQuery();
+                rsmd = rs.getMetaData();
+                int columnCount = rsmd.getColumnCount();
                 
+                StringBuilder sb = new StringBuilder();
+                
+                while (rs.next()) {
+                    sb.append("{ ");
+                    for (int i = 1; i <= columnCount; i++) {
+                        sb.append("\"").append(rsmd.getColumnLabel(i)).append("\": \"")
+                          .append(rs.getString(i)).append("\"");
+                        if (i < columnCount) sb.append(", ");
+                    }
+                    sb.append(" }, ");
+                }
+                
+                if (sb.length() > 2) {
+                    sb.setLength(sb.length() - 2);  // Remove trailing comma and space
+                }
+                
+                result = "[" + sb.toString() + "]";
             }
             
         }

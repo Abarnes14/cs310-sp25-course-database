@@ -1,6 +1,10 @@
 package edu.jsu.mcis.cs310.coursedb.dao;
 
 import java.sql.*;
+import edu.jsu.mcis.cs310.coursedb.dao.DAOFactory;
+import edu.jsu.mcis.cs310.coursedb.dao.RegistrationDAO;
+import edu.jsu.mcis.cs310.coursedb.dao.SectionDAO;
+import edu.jsu.mcis.cs310.coursedb.dao.DAOUtility;
 
 public final class DAOFactory {
     
@@ -21,12 +25,16 @@ public final class DAOFactory {
         this.password = properties.getProperty(PROPERTY_PASSWORD);
         
         try {
-            conn = DriverManager.getConnection(url, username, password);
-        }
-        catch (Exception e) {
-            conn = null;
-            e.printStackTrace();
-        }
+    conn = DriverManager.getConnection(url, username, password);
+    if (conn != null) {
+        System.out.println("Connection successful!");
+    } else {
+        System.out.println("Failed to connect.");
+    }
+} catch (Exception e) {
+    conn = null;
+    e.printStackTrace();
+}
         
     }
     
